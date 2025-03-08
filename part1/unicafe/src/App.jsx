@@ -6,6 +6,10 @@ const App = () => {
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
+  const all = good + neutral + bad;
+  const average = (all === 0) ? 'N/A' :((good * 1 + neutral * 0 + bad * (-1)) / all).toString();
+  const positivePct = (all === 0) ? 'N/A' : (good / all * 100).toString() + ' %';
+
   const clickHandler = (feedback, setFeedback) => () => {
     setFeedback(feedback+1)
   }
@@ -27,6 +31,9 @@ const App = () => {
       <div>good {good}</div>
       <div>neutral {neutral}</div>
       <div>bad {bad}</div>
+      <div>all {all}</div>
+      <div>average {average}</div>
+      <div>positive {positivePct}</div>
     </div>
   )
 }
