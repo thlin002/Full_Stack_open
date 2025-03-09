@@ -1,5 +1,14 @@
 import { useState } from 'react'
 
+const Anecdote = ({text, votes}) => {
+  return (
+    <>
+      <div>{text}</div>
+      <div>has {votes} votes</div>
+    </>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -14,6 +23,8 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [votes, setVotes] = useState(new Uint8Array(anecdotes.length))
+  const [mostVotes, setMostVotes] = useState(0)
+  const [mostVotesIndex, setMostVotesIndex] = useState(0)
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max)
@@ -27,14 +38,22 @@ const App = () => {
     const copy = [...votes]
     copy[selected] += 1
     setVotes(copy)
+    // Determine the anecdote with the most votes
+    if (copy[selected] > mostVotes) {
+      setMostVotes(copy[selected])
+      setMostVotesIndex(selected)
+    }
   }
 
   return (
     <>
-      <div>{anecdotes[selected]}</div>
-      <div>has {votes[selected]} votes</div>
+      <h1>Anecdote of the day</h1>
+      <Anecdote text={anecdotes[selected]} votes={votes[selected]} />
       <button onClick={voteHandler}>vote</button>
       <button onClick={nextHandler}>next anecdote</button>
+
+      <h1>Anecdote with most votes</h1>
+      <Anecdote text={anecdotes[mostVotesIndex]} votes={votes[mostVotesIndex]} />
     </>
   )
 }
