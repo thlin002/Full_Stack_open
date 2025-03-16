@@ -12,7 +12,11 @@ const App = () => {
 
   const addContact = (e) => {
     e.preventDefault()
-    const personObject = { name: newName }
+    const personObject = { name: newName.trim() }
+    if (persons.findIndex((person) => person.name === personObject.name) >= 0) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
     setPersons(persons.concat(personObject))
     setNewName('')
   }
