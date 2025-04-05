@@ -85,13 +85,19 @@ const App = () => {
       name: newName.trim(),
       number: newNumber.trim()
     }
-    if (persons.findIndex((person) => person.name === personObject.name) >= 0) {
-      alert(`${newName} is already added to phonebook`)
-      return
+    const indexFound = persons.findIndex((person) => person.name === personObject.name)
+    if (indexFound >= 0) {
+      if(confirm(`${newName} is already added to phonebook, replace the old number with a new one ?`)){
+        phonebook
+          .update(persons[indexFound].id, personObject)
+          .then(updatedPerson => setPersons(persons.map(person => person.id === persons[indexFound].id ? updatedPerson : person)))
+      }
+    } else {
+      phonebook
+        .create(personObject)
+        .then(newPerson => setPersons(persons.concat(newPerson)))
     }
-    phonebook
-      .create(personObject)
-      .then(newPerson => setPersons(persons.concat(newPerson)))
+
     setNewName('')
     setNewNumber('')
   }
