@@ -14,7 +14,7 @@ const create = (data) => {
 
 const remove = (id) => {
     const request = axios.delete(`${baseUrl}/${id}`)
-    return request
+    return request.then(response => response.data)
 }
 
 const update = (id, data) => {

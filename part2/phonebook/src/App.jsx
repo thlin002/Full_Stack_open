@@ -75,7 +75,7 @@ const App = () => {
     phonebook
       .remove(id)
       .then((response) => {
-        setPersons(persons.filter((person) => person.id != id))
+        setPersons(persons.filter((person) => person.id != response.id))
       })
   }
 
