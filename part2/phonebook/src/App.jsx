@@ -1,16 +1,25 @@
 import { useState, useEffect } from 'react'
 import phonebook from './services/phonebook'
 
-const Person = ( {person} ) => {
+const DeleteButton = ( {person, handleDelete} )  => {
+  const onClick = () => {
+    if(confirm(`Delete ${person.name} ?`)) {
+      handleDelete(person.id)
+    }
+  }
+  return (<button onClick={onClick}>delete</button>)
+}
+
+const Person = ( {person, handleDelete} ) => {
   return (
-    <div >{person.name} {person.number}</div>
+    <div >{person.name} {person.number} <DeleteButton person={person} handleDelete={handleDelete} /></div>
   )
 }
 
-const Persons = ( {persons} ) => {
+const Persons = ( {persons, handleDelete} ) => {
   return (
     <>
-      {persons.map((person) => <Person key={person.name} person={person}/>)}
+      {persons.map((person) => <Person key={person.name} person={person} handleDelete={handleDelete} />)}
     </>
   )
 }
@@ -62,6 +71,14 @@ const App = () => {
     setFilter(e.target.value)
   }
 
+  const deleteContact = (id) => {
+    phonebook
+      .remove(id)
+      .then((response) => {
+        setPersons(persons.filter((person) => person.id != id))
+      })
+  }
+
   const addContact = (e) => {
     e.preventDefault()
     const personObject = {
@@ -94,7 +111,7 @@ const App = () => {
         onNumberChange={handleNumberChange}
       />
       <h3>Numbers</h3>
-      <Persons persons={personsToShow} />
+      <Persons persons={personsToShow} handleDelete={deleteContact} />
     </div>
   )
 }
