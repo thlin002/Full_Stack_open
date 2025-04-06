@@ -1,70 +1,9 @@
 import { useState, useEffect } from 'react'
 import phonebook from './services/phonebook'
-
-const Message = ( {message, color} ) => {
-  const msgStyle = {
-    color: color,
-    background: 'lightgrey',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10
-  }
-  return (
-    <div style={msgStyle}>
-      {message}
-    </div>
-  )
-}
-
-const DeleteButton = ( {person, handleDelete} )  => {
-  const onClick = () => {
-    if(confirm(`Delete ${person.name} ?`)) {
-      handleDelete(person.id)
-    }
-  }
-  return (<button onClick={onClick}>delete</button>)
-}
-
-const Person = ( {person, handleDelete} ) => {
-  return (
-    <div >{person.name} {person.number} <DeleteButton person={person} handleDelete={handleDelete} /></div>
-  )
-}
-
-const Persons = ( {persons, handleDelete} ) => {
-  return (
-    <>
-      {persons.map((person) => <Person key={person.name} person={person} handleDelete={handleDelete} />)}
-    </>
-  )
-}
-
-const Filter = ( {value, onChange} ) => {
-  return (
-    <label>
-    filter shown with <input value={value} onChange={onChange} />
-    </label>
-  )
-}
-
-const PersonForm = ( {onSubmit, newName, newNumber, onNameChange, onNumberChange} ) => {
-  return (
-    <form onSubmit={onSubmit}>
-      <div>
-        name: <input value={newName} onChange={onNameChange}/>
-      </div>
-      <div>
-        number: <input value={newNumber} onChange={onNumberChange}/>
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
-    </form>
-  )
-
-}
+import Persons from './components/Persons'
+import Message from './components/Message'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 const App = () => {
   const [persons, setPersons] = useState([])
