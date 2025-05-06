@@ -23,6 +23,7 @@ const App = () => {
     } else {
       setMessage({ content: 'Error', color: 'red' })
     }
+    // Start a timer that will set the errorMessage state to null after five seconds.
     setTimeout(() => setMessage({ content: null, color: null }), 5000)
   }
 
