@@ -7,27 +7,29 @@ function App() {
   const [countryList, setCountryList] = useState(null);
   const [matchList, setMatchList] = useState(null);
 
+  // This function handles the filter change event.
+  // It updates the filter state with the value from the input field.
   let handleFilterChange = (e) => {
     let filterStr = e.target.value;
     setFilter(filterStr);
   };
 
   // Update the matchList whenever the filter or countryList changes.
-  // This is to handle the case when the user types in the input field and the countryList is not yet fetched.
   useEffect(() => {
-    // If filter is empty string, assign queryResult an empty array.
+    // If countryList is null, do not proceed with filtering.
     if (countryList) {
+      // If filter is empty string, assign queryResult an empty array.
       setMatchList(
         filter
           ? countryList.filter((country) =>
               country.toLowerCase().includes(filter.toLowerCase()),
             )
           : [],
-      )
+      );
     }
   }, [filter, countryList]);
 
-  // get and set the Country List after the initial rendering.
+  // Get and set the Country List after the initial rendering.
   useEffect(() => {
     restcountries
       .getAll()
@@ -39,12 +41,17 @@ function App() {
       .catch((error) => window.alert(error));
   }, []);
 
+  // If the matchList is null, display a loading message.
   return (
     <>
       <label>
         find countries <input value={filter} onChange={handleFilterChange} />
       </label>
-      <CountrySearchResult countries={matchList} />
+      {matchList ? (
+        <CountrySearchResult countries={matchList} />
+      ) : (
+        <div>loading</div>
+      )}
     </>
   );
 }
